@@ -1,7 +1,6 @@
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
 
-const { USER } = require('../validates');
+const { USER, TOKEN } = require('../validates');
 
 const create = (request, _response, next) => {
   const { body } = request;
@@ -15,12 +14,9 @@ const get = async (request, _response, next) => {
   const token = request.headers.authorization;
   if (!token) return next('tokenEmpty');
 
-  try {
-    await jwt.verify(token, process.env.JWT_SECRET);
-    return next();
-  } catch (_e) {
-    return next('tokenInvalid');
-  }
+  const validate = await TOKEN(token);
+  if (!validate) return next('tokenInvalid');
+  return next();
 };
 
 module.exports = {
