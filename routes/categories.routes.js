@@ -5,5 +5,6 @@ const categoriesController = require('../controllers/categories.controller');
 const router = express();
 
 router.post('/', categoriesMiddleware.create, categoriesController.create);
+router.get('/', categoriesMiddleware.get, categoriesController.get);
 
 module.exports = router;

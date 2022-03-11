@@ -17,6 +17,17 @@ const create = async (request, _response, next) => {
   return next();
 };
 
+const get = async (request, _response, next) => {
+  const token = request.headers.authorization;
+  if (!token) return next('tokenEmpty');
+
+  const validateToken = await TOKEN(token);
+  if (!validateToken) return next('tokenInvalid');
+
+  return next();
+};
+
 module.exports = {
   create,
+  get,
 };
