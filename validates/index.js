@@ -14,6 +14,10 @@ const LOGIN = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const CATEGORY = Joi.object({
+  name: Joi.string().required(),
+});
+
 const TOKEN = async (token) => {
   try {
     await jwt.verify(token, process.env.JWT_SECRET);
@@ -27,4 +31,5 @@ module.exports = {
   USER,
   LOGIN,
   TOKEN,
+  CATEGORY,
 };
