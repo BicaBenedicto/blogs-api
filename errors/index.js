@@ -23,6 +23,14 @@ const TYPES = {
     code: 400,
     message: '"password" is required',
   },
+  emailNotFound: {
+    code: 400,
+    message: 'Invalid fields',
+  },
+  loginInvalid: {
+    code: 400,
+    message: 'Invalid fields',
+  },
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
