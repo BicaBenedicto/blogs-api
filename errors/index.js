@@ -39,6 +39,10 @@ const TYPES = {
     code: 401,
     message: 'Expired or invalid token',
   },
+  userNotExists: {
+    code: 404,
+    message: 'User does not exist',
+  },
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {

@@ -24,7 +24,16 @@ const get = async (_request, response, _next) => {
   return response.status(200).json(getUsers);
 };
 
+const getById = async (request, response, next) => {
+  const { id } = request.params;
+  const getUser = await User.findByPk(id);
+  if (!getUser) return next('userNotExists');
+
+  return response.status(200).json(getUser);
+};
+
 module.exports = {
   create,
   get,
+  getById,
 };
