@@ -31,6 +31,14 @@ const TYPES = {
     code: 400,
     message: 'Invalid fields',
   },
+  tokenEmpty: {
+    code: 401,
+    message: 'Token not found',
+  },
+  tokenInvalid: {
+    code: 401,
+    message: 'Expired or invalid token',
+  },
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {

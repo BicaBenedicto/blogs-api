@@ -19,6 +19,12 @@ const create = async (request, response, next) => {
   return response.status(201).json({ token });
 };
 
+const get = async (_request, response, _next) => {
+  const getUsers = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
+  return response.status(200).json(getUsers);
+};
+
 module.exports = {
   create,
+  get,
 };
