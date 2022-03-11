@@ -1,8 +1,14 @@
 const express = require('express');
+const userRoutes = require('./routes/user.routes');
+const errorsMiddleware = require('./errors');
 
 const app = express();
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
+
+app.use('/user', userRoutes);
+
+app.use(errorsMiddleware);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
