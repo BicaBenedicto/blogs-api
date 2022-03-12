@@ -23,6 +23,18 @@ const TYPES = {
     code: 400,
     message: '"password" is required',
   },
+  'contentany.required': {
+    code: 400,
+    message: '"content" is required',
+  },
+  'titleany.required': {
+    code: 400,
+    message: '"title" is required',
+  },
+  'categoryIdsobject.unknown': {
+    code: 400,
+    message: 'Categories cannot be edited',
+  },
   emailNotFound: {
     code: 400,
     message: 'Invalid fields',
@@ -51,6 +63,10 @@ const TYPES = {
     code: 404,
     message: 'Post does not exist',
   },
+  UnauthorizedUser: {
+    code: 401,
+    message: 'Unauthorized user',
+  },
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
@@ -61,7 +77,6 @@ const handdleGenericErrors = (error, _request, response, _next) => {
   if (error.details) {
     const [details] = error.details;
     const err = details.path[0] + details.type;
-
     if (TYPES[err]) {
       const { code, message } = TYPES[err];
       return response.status(code).json({ message });

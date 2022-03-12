@@ -24,6 +24,11 @@ const POST = Joi.object({
   categoryIds: Joi.array().items(Joi.number()).required(),
 });
 
+const POST_PUT = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
+
 const TOKEN = async (token) => {
   try {
     await jwt.verify(token, process.env.JWT_SECRET);
@@ -39,4 +44,5 @@ module.exports = {
   TOKEN,
   CATEGORY,
   POST,
+  POST_PUT,
 };

@@ -18,6 +18,17 @@ const get = async (array) => {
   return posts;
 };
 
+const update = async (id) => {
+    const categoryIds = await PostsCategory
+      .findAll({ attributes: ['postId', 'categoryId'], where: { postId: id } });
+
+    const categories = await Promise.all(categoryIds
+      .map(async ({ dataValues: data }) => Category.findByPk(data.categoryId)));
+
+      return categories.map(({ dataValues }) => dataValues);
+};
+
 module.exports = {
   get,
+  update,
 };

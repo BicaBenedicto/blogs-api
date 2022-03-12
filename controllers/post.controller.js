@@ -47,8 +47,33 @@ const getById = async (request, response, next) => {
   return response.status(200).json(postsOutput);
 };
 
+const update = async (request, response, next) => {
+  const { body } = request;
+  const { id } = request.params;
+  const posts = await BlogPost
+    .findAll({
+      attributes: ['title', 'content', 'userId'],
+      where: { id },
+    });
+  if (posts.length === 0) return next('PostNotExists');
+
+  const newPost = { userId: posts[0].dataValues.userId,
+    title: body.title,
+    content: body.content };
+
+  const [postsOutput] = await Promise.all([PostService.update(id),
+    BlogPost.update({ title: body.title, content: body.content }, {
+      where: { id },
+    })]);
+
+  newPost.categories = postsOutput;
+
+  return response.status(200).json(newPost);
+};
+
 module.exports = {
   create,
   get,
   getById,
+  update,
 };
