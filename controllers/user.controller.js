@@ -2,7 +2,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const userServices = require('../services/user.service');
-const { User } = require('../models');
+const { User, PostsCategory, BlogPost } = require('../models');
 
 const jwtConfig = {
   expiresIn: '7d',
@@ -32,8 +32,21 @@ const getById = async (request, response, next) => {
   return response.status(200).json(getUser);
 };
 
+const remove = async (request, response, _next) => {
+  const { id } = request.user;
+  const posts = await BlogPost.findAll({ attributes: ['id'], where: { userId: id } });
+
+  await Promise
+    .all(posts.map(async ({ dataValues }) => PostsCategory.destroy({ where:
+      { postId: dataValues.id } })));
+  await Promise.all([BlogPost.destroy({ where: { userId: id } }),
+      User.destroy({ where: { id } })]);
+return response.status(204).end();
+};
+
 module.exports = {
   create,
   get,
   getById,
+  remove,
 };
