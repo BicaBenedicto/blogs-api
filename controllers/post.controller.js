@@ -34,7 +34,21 @@ const get = async (_request, response, _next) => {
   return response.status(200).json(postsOutput);
 };
 
+const getById = async (request, response, next) => {
+  const { id } = request.params;
+  const posts = await BlogPost
+    .findAll({
+      attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+      where: { id },
+    });
+  if (posts.length === 0) return next('PostNotExists');
+  const [postsOutput] = await PostService.get(posts);
+
+  return response.status(200).json(postsOutput);
+};
+
 module.exports = {
   create,
   get,
+  getById,
 };

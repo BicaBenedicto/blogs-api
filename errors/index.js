@@ -47,6 +47,10 @@ const TYPES = {
     code: 400,
     message: '"categoryIds" not found',
   },
+  PostNotExists: {
+    code: 404,
+    message: 'Post does not exist',
+  },
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
