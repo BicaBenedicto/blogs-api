@@ -71,9 +71,17 @@ const update = async (request, response, next) => {
   return response.status(200).json(newPost);
 };
 
+const remove = async (request, response, _next) => {
+  const { id } = request.params;
+  await Promise
+    .all([PostsCategory.destroy({ where: { postId: id } }), BlogPost.destroy({ where: { id } })]);
+  return response.status(204).end();
+};
+
 module.exports = {
   create,
   get,
   getById,
   update,
+  remove,
 };

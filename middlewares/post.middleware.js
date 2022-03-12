@@ -48,8 +48,27 @@ const update = async (request, _response, next) => {
   return next();
 };
 
+const remove = async (request, _response, next) => {
+  const { params, headers } = request;
+  const { id } = params;
+  
+  const token = headers.authorization;
+  if (!token) return next('tokenEmpty');
+  const validateToken = await TOKEN(token);
+  if (!validateToken) return next('tokenInvalid');
+  
+  const user = jwt.decode(token, process.env.JWT_SECRET);
+  const post = await BlogPost.findByPk(id);
+
+  if (!post) return next('PostNotExists');
+  if (post.userId !== user.data.id) return next('UnauthorizedUser');
+
+  return next();
+};
+
 module.exports = {
   create,
   get,
   update,
+  remove,
 };
