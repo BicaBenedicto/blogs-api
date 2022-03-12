@@ -18,6 +18,12 @@ const CATEGORY = Joi.object({
   name: Joi.string().required(),
 });
 
+const POST = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  categoryIds: Joi.array().items(Joi.number()).required(),
+});
+
 const TOKEN = async (token) => {
   try {
     await jwt.verify(token, process.env.JWT_SECRET);
@@ -32,4 +38,5 @@ module.exports = {
   LOGIN,
   TOKEN,
   CATEGORY,
+  POST,
 };

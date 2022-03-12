@@ -43,6 +43,10 @@ const TYPES = {
     code: 404,
     message: 'User does not exist',
   },
+  categoryIdsNotFound: {
+    code: 400,
+    message: '"categoryIds" not found',
+  },
 };
 
 const handdleGenericErrors = (error, _request, response, _next) => {
