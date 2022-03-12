@@ -1,4 +1,5 @@
 const { BlogPost, Category, PostsCategory } = require('../models');
+const PostService = require('../services/post.service');
 
 const create = async (request, response, next) => {
   const { body } = request;
@@ -25,6 +26,15 @@ const create = async (request, response, next) => {
     .json({ id: postId, userId, title, content });
 };
 
+const get = async (_request, response, _next) => {
+  const posts = await BlogPost
+    .findAll({ attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'] });
+  const postsOutput = await PostService.get(posts);
+
+  return response.status(200).json(postsOutput);
+};
+
 module.exports = {
   create,
+  get,
 };
