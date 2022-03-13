@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, Category, PostsCategory } = require('../models');
 const PostService = require('../services/post.service');
 
@@ -78,10 +79,27 @@ const remove = async (request, response, _next) => {
   return response.status(204).end();
 };
 
+const findBySearch = async (request, response, next) => {
+  const { q } = request.query;
+  if (!q) return get(request, response, next);
+
+  const posts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [{ title: { [Op.like]: q } }, { content: { [Op.like]: q } }],
+    },
+    attributes: ['id', 'title', 'content', 'userId', 'published', 'updated'],
+  });
+  const postsOutput = await PostService.get(posts);
+
+  if (posts.length === 0) return response.status(200).json(posts);
+  return response.status(200).json(postsOutput);
+};
+
 module.exports = {
   create,
   get,
   getById,
   update,
   remove,
+  findBySearch,
 };
