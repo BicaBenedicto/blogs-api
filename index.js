@@ -17,7 +17,6 @@ app.use('/post', postRoutes);
 
 app.use(errorsMiddleware);
 
-// não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
